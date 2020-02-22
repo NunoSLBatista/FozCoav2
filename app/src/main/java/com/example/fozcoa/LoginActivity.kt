@@ -1,7 +1,9 @@
 package com.example.fozcoa
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -9,7 +11,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
+        buttonLogin.setOnClickListener {
+            val intentCreate = Intent(applicationContext, RegisterActivity::class.java);
+            startActivity(intentCreate);
+        }
 
     }
 
