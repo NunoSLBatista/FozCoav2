@@ -1,14 +1,11 @@
 package com.example.fozcoa.models
 
-class Miradouro() {
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-    lateinit var name : String
-    lateinit var mainPicture: String
-    lateinit var description: String
-    lateinit var listImages: ArrayList<String>
+class Miradouro(var name : String, var mainPicture: String, var description: String, var listImages: ArrayList<String>){
 
-    constructor(name: String){
-        this.name = name
-    }
+
 
 }

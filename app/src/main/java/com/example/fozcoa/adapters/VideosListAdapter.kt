@@ -10,8 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fozcoa.R
 import com.example.fozcoa.models.Miradouro
+import com.example.fozcoa.models.Videos
 
-class MiradouroListAdapter (private val context: Context, private val miradouroList: ArrayList<Miradouro>, val listener : OnActionListener) : BaseAdapter(){
+class VideosListAdapter (private val context: Context, private val videosList: ArrayList<Videos>, val listener : OnActionListener) : BaseAdapter(){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
        var convertView: View? = convertView
@@ -29,11 +30,11 @@ class MiradouroListAdapter (private val context: Context, private val miradouroL
             holder = convertView.tag as ViewHolder
         }
 
-        holder.title!!.text = miradouroList.get(position).name
+        holder.title!!.text = videosList.get(position).name
 
 
         holder.linearLayout!!.setOnClickListener {
-            listener.startActivity(context, miradouroList[position])
+            listener.startActivity(context, videosList[position])
         }
 
         return convertView
@@ -41,7 +42,7 @@ class MiradouroListAdapter (private val context: Context, private val miradouroL
     }
 
     override fun getItem(position: Int): Any {
-       return miradouroList[position]
+       return videosList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -49,7 +50,7 @@ class MiradouroListAdapter (private val context: Context, private val miradouroL
     }
 
     override fun getCount(): Int {
-       return miradouroList.size
+       return videosList.size
     }
 
     private inner class ViewHolder {
@@ -58,7 +59,7 @@ class MiradouroListAdapter (private val context: Context, private val miradouroL
     }
 
     interface OnActionListener {
-        fun startActivity(context: Context, miradouro: Miradouro)
+        fun startActivity(context: Context, video: Videos)
     }
 
 }

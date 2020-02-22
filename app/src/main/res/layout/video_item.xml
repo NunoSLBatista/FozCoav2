@@ -25,7 +25,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Miradouro do Caminho da Costa"
+                android:text="D'um Castel Melhor"
                 android:textColor="@color/white"
                 android:textSize="24sp" />
 
