@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
         android:layout_weight="0.5"
         android:gravity="bottom"
         android:text="@string/loginText"
@@ -38,33 +39,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
+        android:theme="@style/EditTextTheme"
+        app:hintEnabled="false"
         android:textColorHint="#FFFFFF">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/EditTextTheme"
             android:hint="email"
             android:paddingLeft="10dp"
-            android:backgroundTint="@android:color/white"
-            android:paddingBottom="18dp"
-            app:fontFamily="@font/montserrat"/>
+            android:paddingBottom="20dp"
+            app:fontFamily="@font/montserrat" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:theme="@style/EditTextTheme"
         android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF">
+        android:textColorHint="#FFFFFF"
+        app:hintEnabled="false">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="password"
             android:paddingLeft="10dp"
-            android:backgroundTint="@android:color/white"
-            android:paddingBottom="18dp"
-            app:fontFamily="@font/montserrat"/>
+            android:paddingBottom="20dp"
+            android:theme="@style/EditTextTheme"
+            app:fontFamily="@font/montserrat" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
