@@ -8,5 +8,7 @@
     <string name="createAccount">criar conta</string>
     <string name="profilePicture"> <font color='#8a7057'>| </font>fotografia de perfil</string>
     <string name="accessData"> <font color='#8a7057'>| </font>dados de acesso</string>
+    <string name="toWorld">para o mundo</string>
+    <string name="shareExperience"><font color='#8a7057'>| </font>partilhe a sua experiência</string>
 
 </resources>

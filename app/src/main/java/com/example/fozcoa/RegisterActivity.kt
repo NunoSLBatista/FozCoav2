@@ -1,5 +1,6 @@
 package com.example.fozcoa
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_register.*
@@ -14,6 +15,11 @@ class RegisterActivity : AppCompatActivity() {
             this.finish()
         }
 
+
+        createAccount.setOnClickListener {
+            val intentMain = Intent(applicationContext, MenuActivity::class.java);
+            startActivity(intentMain);
+        }
 
     }
 }

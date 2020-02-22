@@ -144,6 +144,7 @@
 
 
     <Button
+        android:id="@+id/createAccount"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_marginLeft="30dp"
