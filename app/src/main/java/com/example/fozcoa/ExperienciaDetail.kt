@@ -16,7 +16,13 @@ import com.example.fozcoa.models.ImageGallery
 import com.example.fozcoa.models.Miradouro
 import com.example.fozcoa.models.TypeGalleryItem
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_experiencia_detail.*
 import kotlinx.android.synthetic.main.activity_miradouro_detail.*
+import kotlinx.android.synthetic.main.activity_miradouro_detail.description
+import kotlinx.android.synthetic.main.activity_miradouro_detail.galleryView
+import kotlinx.android.synthetic.main.activity_miradouro_detail.goBack
+import kotlinx.android.synthetic.main.activity_miradouro_detail.titleMiradouro
+import kotlinx.android.synthetic.main.activity_miradouro_detail.typeListView
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
@@ -59,6 +65,12 @@ class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListen
         val galleryAdapter = GalleryListAdapter(applicationContext, experienciaItem!!.listImages, this)
         galleryView.layoutManager = GridLayoutManager(applicationContext, 3)
         galleryView.adapter = galleryAdapter
+
+
+        createExperiencia.setOnClickListener {
+            val bottomSheetDialogFragment = CreateExperienceDialog()
+            bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
+        }
 
         goBack.setOnClickListener {
             this.finish()
@@ -106,5 +118,9 @@ class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListen
         galleryView.adapter = galleryAdapter
 
     }
+
+
+
+
 
 }

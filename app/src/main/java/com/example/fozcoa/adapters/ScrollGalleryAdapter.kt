@@ -14,10 +14,10 @@ import com.example.fozcoa.models.Miradouro
 import com.squareup.picasso.Picasso
 
 
-class GalleryListAdapter (private val context: Context, private val imagesList: ArrayList<ImageGallery>, val listener : OnActionListener) : RecyclerView.Adapter<GalleryListAdapter.ViewHolder>(){
+class ScrollGalleryAdapter (private val context: Context, private val imagesList: ArrayList<ImageGallery>, val listener : OnActionListener) : RecyclerView.Adapter<ScrollGalleryAdapter.ViewHolder>(){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryListAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.gallery_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScrollGalleryAdapter.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.scroll_gallery_item, parent, false)
         return ViewHolder(v)
     }
 
@@ -25,7 +25,7 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
        return imagesList.size
     }
 
-    override fun onBindViewHolder(holder: GalleryListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScrollGalleryAdapter.ViewHolder, position: Int) {
 
 
         Picasso.with(context).load(imagesList[position].url).into(holder.imageView)
@@ -38,7 +38,7 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val imageView = itemView.findViewById(R.id.galleryItem) as ImageView
+        val imageView = itemView.findViewById(R.id.scrollImageView) as ImageView
 
     }
 
