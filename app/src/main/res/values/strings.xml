@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Foz Coa</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Experiências</string>
+    <string name="title_dashboard">Miradouros</string>
+    <string name="title_notifications">Vídeos</string>
     <string name="loginText">inicar sessão</string>
     <string name="createAccount">criar conta</string>
     <string name="profilePicture"> <font color='#8a7057'>| </font>fotografia de perfil</string>
@@ -14,5 +14,7 @@
     <string name="perfectSintony"><font color='#0b562e'>| </font>perfeita sintonia</string>
     <string name="videos">vídeos</string>
     <string name="subtitleVideo"><font color='#8a7057'>| </font>respire natureza</string>
+    <string name="experiencias">experiências</string>
+    <string name="subTitleExperiencias"><font color='#6a2b3a'>| </font>sinta-se vivo</string>
 
 </resources>

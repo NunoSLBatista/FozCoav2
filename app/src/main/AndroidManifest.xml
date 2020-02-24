@@ -15,6 +15,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MiradouroDetail"></activity>
+        <activity android:name=".ExperienciaDetail"></activity>
         <activity android:name=".MenuActivity" />
         <activity
             android:name=".MainActivity"

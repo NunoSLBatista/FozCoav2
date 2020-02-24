@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fozcoa.adapters.GalleryListAdapter
 import com.example.fozcoa.adapters.MiradouroListAdapter
 import com.example.fozcoa.adapters.TypeGalleryListAdapter
+import com.example.fozcoa.models.Experiencia
 import com.example.fozcoa.models.ImageGallery
 import com.example.fozcoa.models.Miradouro
 import com.example.fozcoa.models.TypeGalleryItem
@@ -19,30 +20,30 @@ import kotlinx.android.synthetic.main.activity_miradouro_detail.*
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 
-class MiradouroDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener, TypeGalleryListAdapter.OnActionListener {
+class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener, TypeGalleryListAdapter.OnActionListener {
 
-    var miradouroItem : Miradouro? = null
+    var experienciaItem : Experiencia? = null
     var currentGalleryList: ArrayList<ImageGallery>? = null
     var typeItemList = ArrayList<TypeGalleryItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_miradouro_detail)
+        setContentView(R.layout.activity_experiencia_detail)
 
-        miradouroItem = intent.getParcelableExtra("miradouro")
+        experienciaItem = intent.getParcelableExtra("experiencia")
 
         val bgImage = findViewById(R.id.bgImage) as ImageView
 
-        Picasso.with(applicationContext).load(miradouroItem!!.mainPicture).into(bgImage)
-        titleMiradouro.text = miradouroItem!!.name
-        description.text = miradouroItem!!.description
+        Picasso.with(applicationContext).load(experienciaItem!!.mainImage).into(bgImage)
+        titleMiradouro.text = experienciaItem!!.name
+        description.text = experienciaItem!!.description
 
         typeItemList.add(TypeGalleryItem("todos"))
 
-        for(i in 0 until miradouroItem!!.listImages.size){
+        for(i in 0 until experienciaItem!!.listImages.size){
 
-            if(!checkType(miradouroItem!!.listImages.get(i).type)){
-                typeItemList.add(TypeGalleryItem(miradouroItem!!.listImages.get(i).type))
+            if(!checkType(experienciaItem!!.listImages.get(i).type)){
+                typeItemList.add(TypeGalleryItem(experienciaItem!!.listImages.get(i).type))
             }
 
         }
@@ -51,12 +52,11 @@ class MiradouroDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener
             typeItemList.removeAt(0)
         }
 
-
         val typeAdapter = TypeGalleryListAdapter(applicationContext, typeItemList, 0, this)
         typeListView.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
         typeListView.adapter = typeAdapter
 
-        val galleryAdapter = GalleryListAdapter(applicationContext, miradouroItem!!.listImages, this)
+        val galleryAdapter = GalleryListAdapter(applicationContext, experienciaItem!!.listImages, this)
         galleryView.layoutManager = GridLayoutManager(applicationContext, 3)
         galleryView.adapter = galleryAdapter
 
@@ -89,10 +89,10 @@ class MiradouroDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener
 
         currentGalleryList = ArrayList<ImageGallery>()
 
-        for(i in 0 until miradouroItem!!.listImages.size){
+        for(i in 0 until experienciaItem!!.listImages.size){
 
-            if(miradouroItem!!.listImages.get(i).type == typeItem.name || typeItem.name == "todos"){
-               currentGalleryList!!.add(miradouroItem!!.listImages.get(i))
+            if(experienciaItem!!.listImages.get(i).type == typeItem.name || typeItem.name == "todos"){
+               currentGalleryList!!.add(experienciaItem!!.listImages.get(i))
             }
 
         }

@@ -8,10 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -21,6 +25,7 @@ import com.android.volley.toolbox.Volley
 import com.example.fozcoa.MiradouroDetail
 import com.example.fozcoa.R
 import com.example.fozcoa.adapters.MiradouroListAdapter
+import com.example.fozcoa.models.ImageGallery
 import com.example.fozcoa.models.Miradouro
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
@@ -44,13 +49,14 @@ class DashboardFragment : Fragment(), MiradouroListAdapter.OnActionListener {
             ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
 
+
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("Fragment Miradouro", "teste")
+
 
         val requestQueue: RequestQueue
 
@@ -59,11 +65,11 @@ class DashboardFragment : Fragment(), MiradouroListAdapter.OnActionListener {
         request = object : StringRequest(Request.Method.POST, URL,
             Response.Listener { response ->
 
-                Log.d("Response Miradouro", response)
-
                 if (response.length > 0) {
 
                     try {
+
+                        Log.d("response", response)
 
                         miradouroListArray.clear()
 
@@ -73,16 +79,31 @@ class DashboardFragment : Fragment(), MiradouroListAdapter.OnActionListener {
 
                         for (i in 0 until jsonArray.length()) {
 
-                            val hotelObj = jsonArray.getJSONObject(i)
-                            val nome = hotelObj.getString("name")
-                            val description = hotelObj.getString("description")
-                            val id = hotelObj.getInt("id")
-                            val urlImage = hotelObj.getString("photo_url")
+                            val miradouroObj = jsonArray.getJSONObject(i)
+                            val galleryArray = miradouroObj.getJSONArray("images")
 
-                            miradouroListArray.add(Miradouro(id, nome, urlImage, description, ArrayList()))
+                            val arrayGallery = ArrayList<ImageGallery>()
+
+                            for(j in 0 until galleryArray.length()){
+                                val galleryObj = galleryArray.getJSONObject(j)
+                                val id = galleryObj.getInt("id")
+                                val url = galleryObj.getString("url")
+                                val type = galleryObj.getString("type")
+
+                                arrayGallery.add(ImageGallery(id, url, type))
+                            }
+
+                            val nome = miradouroObj.getString("name")
+                            val description = miradouroObj.getString("description")
+                            val id = miradouroObj.getInt("id")
+                            val urlImage = miradouroObj.getString("photo_url")
+
+                            miradouroListArray.add(Miradouro(id, nome, urlImage, description, arrayGallery))
                         }
 
                         val adapterMiradouro = MiradouroListAdapter(context!!, miradouroListArray, this)
+                        view.miradourosListView.layoutManager =
+                            LinearLayoutManager(context, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
                         view.miradourosListView.adapter = adapterMiradouro
 
 
@@ -101,10 +122,15 @@ class DashboardFragment : Fragment(), MiradouroListAdapter.OnActionListener {
         requestQueue.add<String>(request)
     }
 
+    override fun onResume() {
+        super.onResume()
+        ((activity as AppCompatActivity).supportActionBar?.hide())
+    }
+
 
     override fun startActivity(context: Context, miradouro: Miradouro) {
         val intentDetailMiradouro = Intent(context, MiradouroDetail::class.java)
-        // intentDetailMiradouro.putExtra("miradouro", miradouro)
+        intentDetailMiradouro.putExtra("miradouro", miradouro)
         startActivity(intentDetailMiradouro)
     }
 

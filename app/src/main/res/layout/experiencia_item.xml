@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/boxVideo"
+        android:id="@+id/boxExperiencia"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         app:cardCornerRadius="10dp"
@@ -16,7 +16,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/videoLayout"
+            android:id="@+id/experienciaLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -30,7 +30,7 @@
 
 
             <TextView
-                android:id="@+id/titleVideo"
+                android:id="@+id/titleExperiencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/myImageView"

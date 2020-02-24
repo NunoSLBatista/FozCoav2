@@ -4,62 +4,51 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.LinearLayout
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fozcoa.R
 import com.example.fozcoa.models.Miradouro
 import com.example.fozcoa.models.Videos
+import com.squareup.picasso.Picasso
 
-class VideosListAdapter (private val context: Context, private val videosList: ArrayList<Videos>, val listener : OnActionListener) : BaseAdapter(){
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-       var convertView: View? = convertView
-        val holder: ViewHolder
+class VideosListAdapter (private val context: Context, private val videosList: ArrayList<Videos>, val listener : OnActionListener) : RecyclerView.Adapter<VideosListAdapter.ViewHolder>(){
 
-        if(convertView == null){
-            holder = ViewHolder()
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = inflater.inflate(R.layout.miradouro_item, null, true)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideosListAdapter.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.video_item, parent, false)
+        return ViewHolder(v)
+    }
 
-            holder.title = convertView!!.findViewById(R.id.titleMiradouro)
-            holder.linearLayout = convertView.findViewById(R.id.miradouroLayout)
+    override fun getItemCount(): Int {
+        return videosList.size
+    }
 
-        } else {
-            holder = convertView.tag as ViewHolder
+    override fun onBindViewHolder(holder: VideosListAdapter.ViewHolder, position: Int) {
+
+        holder.titleTextView.text = videosList[position].name
+        if(videosList[position].url != ""){
+            Picasso.with(context).load(videosList[position].url).into(holder.imageView)
         }
 
-        holder.title!!.text = videosList.get(position).name
-
-
-        holder.linearLayout!!.setOnClickListener {
-            listener.startActivity(context, videosList[position])
+        holder.carView.setOnClickListener {
+            listener.startActivity(context, videosList.get(position))
         }
 
-        return convertView
+    }
+
+    class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val titleTextView = itemView.findViewById(R.id.titleVideo) as TextView
+        val imageView = itemView.findViewById(R.id.myImageView) as ImageView
+        val carView = itemView.findViewById(R.id.boxVideo) as CardView
 
     }
 
-    override fun getItem(position: Int): Any {
-       return videosList[position]
-    }
-
-    override fun getItemId(position: Int): Long {
-        return 0
-    }
-
-    override fun getCount(): Int {
-       return videosList.size
-    }
-
-    private inner class ViewHolder {
-        var title: TextView? = null
-        var linearLayout: LinearLayout? = null
-    }
 
     interface OnActionListener {
-        fun startActivity(context: Context, video: Videos)
+        fun startActivity(context: Context, videos: Videos)
     }
 
 }
