@@ -44,11 +44,12 @@
         android:textColorHint="#FFFFFF">
 
         <EditText
+            android:id="@+id/emailTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="email"
             android:paddingLeft="10dp"
-            android:paddingBottom="20dp"
+            android:paddingBottom="17dp"
             android:theme="@style/EditTextTheme"
             app:fontFamily="@font/montserrat" />
 
@@ -64,19 +65,51 @@
         app:hintEnabled="false">
 
         <EditText
+            android:id="@+id/passwordTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="password"
+            android:inputType="text|textPassword"
             android:paddingLeft="10dp"
-            android:paddingBottom="20dp"
+            android:paddingBottom="17dp"
             android:theme="@style/EditTextTheme"
             app:fontFamily="@font/montserrat" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <LinearLayout
         android:id="@+id/buttonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.8"
+            android:text="@string/loginText"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            app:fontFamily="@font/montserrat" />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:scaleType="centerInside"
+            android:src="@drawable/semi_circle" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"

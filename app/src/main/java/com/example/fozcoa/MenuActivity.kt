@@ -19,11 +19,13 @@ class MenuActivity : AppCompatActivity() {
 
         miradouros.setOnClickListener {
             val intentExperiencias = Intent(applicationContext, MainActivity::class.java);
+            intentExperiencias.putExtra("fragmentNumber", 1);
             startActivity(intentExperiencias);
         }
 
         videos.setOnClickListener {
             val intentExperiencias = Intent(applicationContext, MainActivity::class.java);
+            intentExperiencias.putExtra("fragmentNumber", 2);
             startActivity(intentExperiencias);
         }
 

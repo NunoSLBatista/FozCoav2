@@ -90,6 +90,7 @@
         app:hintEnabled="false">
 
         <EditText
+            android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="nome"
@@ -111,6 +112,7 @@
         app:hintEnabled="false">
 
         <EditText
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="email"
@@ -132,6 +134,7 @@
         app:hintEnabled="false">
 
         <EditText
+            android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="password"

@@ -49,7 +49,8 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
         super.onViewCreated(view, savedInstanceState)
 
         nextStep.setOnClickListener {
-
+            val bottomSheetDialogFragment = CreateExperienceDialog2(arrayListImages)
+            bottomSheetDialogFragment.show(activity!!.supportFragmentManager, bottomSheetDialogFragment.tag)
         }
 
         uploadImage.setOnClickListener {

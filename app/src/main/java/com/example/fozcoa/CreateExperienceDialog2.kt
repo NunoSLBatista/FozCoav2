@@ -30,17 +30,18 @@ import android.R.attr.data
 import android.R.attr.data
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fozcoa.adapters.ScrollGalleryAdapter
+import kotlinx.android.synthetic.main.upload_experiencia_modal.nextStep
+import kotlinx.android.synthetic.main.upload_experiencia_modal2.*
+import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
 
-class CreateExperienceDialog2 () : BottomSheetDialogFragment(), UploadListAdapter.OnActionListener {
+
+
+class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : BottomSheetDialogFragment(), ScrollGalleryAdapter.OnActionListener {
 
     private var fragmentView: View? = null
-    val PICK_IMAGE = 1
-    var arrayListImages = ArrayList<Bitmap>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
        fragmentView = inflater.inflate(R.layout.upload_experiencia_modal2, container, false)
@@ -50,16 +51,27 @@ class CreateExperienceDialog2 () : BottomSheetDialogFragment(), UploadListAdapte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val itemAdapter = ScrollGalleryAdapter(context!!, this)
+        picker.setSlideOnFling(true);
+        picker.adapter = itemAdapter
+        itemAdapter.setList(arrayListImages)
+        picker.setOffscreenItems(10)
+        picker.scrollToPosition(1)
+        picker.setItemTransformer(  
+            ScaleTransformer.Builder()
+                .setMinScale(0.6f)
+                .build()
+        )
+
+
         nextStep.setOnClickListener {
 
         }
 
-        previewImages.setHasFixedSize(true)
-
-        previewImages.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        previewImages.adapter = UploadListAdapter(context!!, arrayListImages, this)
 
     }
+
+
 
     override fun startActivity(context: Context, bitmap: Bitmap) {
 

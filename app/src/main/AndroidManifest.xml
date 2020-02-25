@@ -12,10 +12,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MiradouroDetail"></activity>
-        <activity android:name=".ExperienciaDetail"></activity>
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".VideoPlayerActivity" android:screenOrientation="landscape" ></activity>
+        <activity android:name=".MiradouroDetail" />
+        <activity android:name=".ExperienciaDetail" />
         <activity android:name=".MenuActivity" />
         <activity
             android:name=".MainActivity"

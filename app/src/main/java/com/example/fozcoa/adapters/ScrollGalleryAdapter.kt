@@ -1,6 +1,7 @@
 package com.example.fozcoa.adapters
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,9 @@ import com.example.fozcoa.models.Miradouro
 import com.squareup.picasso.Picasso
 
 
-class ScrollGalleryAdapter (private val context: Context, private val imagesList: ArrayList<ImageGallery>, val listener : OnActionListener) : RecyclerView.Adapter<ScrollGalleryAdapter.ViewHolder>(){
+class ScrollGalleryAdapter (private val context: Context, val listener : OnActionListener) : RecyclerView.Adapter<ScrollGalleryAdapter.ViewHolder>(){
+
+    private var imagesList: ArrayList<Bitmap> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScrollGalleryAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.scroll_gallery_item, parent, false)
@@ -28,7 +31,7 @@ class ScrollGalleryAdapter (private val context: Context, private val imagesList
     override fun onBindViewHolder(holder: ScrollGalleryAdapter.ViewHolder, position: Int) {
 
 
-        Picasso.with(context).load(imagesList[position].url).into(holder.imageView)
+        holder.imageView.setImageBitmap(imagesList.get(position))
 
         holder.imageView.setOnClickListener {
             listener.startActivity(context, imagesList.get(position))
@@ -42,9 +45,14 @@ class ScrollGalleryAdapter (private val context: Context, private val imagesList
 
     }
 
+    fun setList(newList : ArrayList<Bitmap>){
+        imagesList = newList
+        notifyDataSetChanged()
+    }
+
 
     interface OnActionListener {
-        fun startActivity(context: Context, galleryItem: ImageGallery)
+        fun startActivity(context: Context, bitmap: Bitmap)
     }
 
 }

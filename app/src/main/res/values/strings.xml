@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Foz Coa</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Experiências</string>
-    <string name="title_dashboard">Miradouros</string>
-    <string name="title_notifications">Vídeos</string>
-    <string name="loginText">inicar sessão</string>
+    <string name="title_home">experiências</string>
+    <string name="title_dashboard">miradouros</string>
+    <string name="title_notifications">vídeos</string>
+    <string name="loginText">iniciar sessão</string>
     <string name="createAccount">criar conta</string>
     <string name="profilePicture"> <font color='#8a7057'>| </font>fotografia de perfil</string>
     <string name="accessData"> <font color='#8a7057'>| </font>dados de acesso</string>

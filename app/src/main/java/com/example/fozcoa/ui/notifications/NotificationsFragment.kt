@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.fozcoa.MiradouroDetail
 import com.example.fozcoa.R
+import com.example.fozcoa.VideoPlayerActivity
 import com.example.fozcoa.adapters.MiradouroListAdapter
 import com.example.fozcoa.adapters.VideosListAdapter
 import com.example.fozcoa.models.ImageGallery
@@ -113,10 +114,10 @@ class NotificationsFragment : Fragment(), VideosListAdapter.OnActionListener {
         ((activity as AppCompatActivity).supportActionBar?.hide())
     }
 
-    override fun startActivity(context: Context, video: Videos) {
-        /*val intentDetailMiradouro = Intent(context, MiradouroDetail::class.java)
-        intentDetailMiradouro.putExtra("video", miradouro)
-        startActivity(intentDetailMiradouro)*/
+    override fun startActivity(context: Context, videos: Videos) {
+        val intentDetailVideo = Intent(context, VideoPlayerActivity::class.java)
+        intentDetailVideo.putExtra("video", videos)
+        startActivity(intentDetailVideo)
     }
 
 }
