@@ -69,10 +69,18 @@ class RegisterActivity : AppCompatActivity() {
                 Request.Method.POST, url, postObject,
                 Response.Listener { response ->
 
-                    val intentLogin= Intent(applicationContext, LoginActivity::class.java)
-                    startActivity(intentLogin)
 
-                    //  Toast.makeText(this@LoginActivity, response.toString(), Toast.LENGTH_LONG).show()
+                    if(response.has("completed")){
+
+                        val intentLogin= Intent(applicationContext, LoginActivity::class.java)
+                        startActivity(intentLogin)
+
+                    } else if (response.has("email")){
+
+                        Toast.makeText(applicationContext, "Email already in use.", Toast.LENGTH_LONG).show()
+
+                    }
+                    
                 },
                 Response.ErrorListener { error ->
                     Log.e("OnError", error.toString())
@@ -85,8 +93,11 @@ class RegisterActivity : AppCompatActivity() {
 
     fun checkRegisterInfo(email : String, name: String, password: String) : Boolean{
 
-        if(email.isEmailValid() && password.length > 5 && name.length > 5){
-            return true
+        if(!email.isEmailValid()){
+            Toast.makeText(applicationContext, "Email format is wrong.", Toast.LENGTH_LONG).show()
+            return false
+        } else if(password.length < 6){
+            Toast.makeText(applicationContext, "Password must have at least 6 characters", Toast.LENGTH_LONG).show()
         }
 
         return false

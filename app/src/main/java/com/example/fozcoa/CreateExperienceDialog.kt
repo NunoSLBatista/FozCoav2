@@ -35,6 +35,7 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
     private var fragmentView: View? = null
     val PICK_IMAGE = 1
     var arrayListImages = ArrayList<Bitmap>()
+    var postID = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +49,11 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         nextStep.setOnClickListener {
             val bottomSheetDialogFragment = CreateExperienceDialog2(arrayListImages)
+            bottomSheetDialogFragment.postID = postID
             bottomSheetDialogFragment.show(activity!!.supportFragmentManager, bottomSheetDialogFragment.tag)
         }
 

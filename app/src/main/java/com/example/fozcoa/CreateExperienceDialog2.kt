@@ -30,17 +30,28 @@ import android.R.attr.data
 import android.R.attr.data
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.fozcoa.adapters.ScrollGalleryAdapter
 import kotlinx.android.synthetic.main.upload_experiencia_modal.nextStep
 import kotlinx.android.synthetic.main.upload_experiencia_modal2.*
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-
-
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : BottomSheetDialogFragment(), ScrollGalleryAdapter.OnActionListener {
 
     private var fragmentView: View? = null
+    var postID = 0
+
+    private val URL = "http://app.ecoa.pt/api/galley/create.php"
+    internal var request: StringRequest? = null
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,11 +77,58 @@ class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : Bottom
 
         nextStep.setOnClickListener {
 
+            val postObject = JSONObject()
+            val queue = Volley.newRequestQueue(context)
+
+            try {
+
+                //historyObject.put("id","1");
+                postObject.put("postID", postID)
+
+                val imageJson = JSONArray()
+
+                for(i in 0 until arrayListImages.size){
+                    imageJson.put(getStringImage(arrayListImages.get(i)))
+                }
+
+                postObject.put("imagesArray", imageJson)
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            val objRequest = JsonObjectRequest(
+                Request.Method.POST, URL, postObject,
+                Response.Listener { response ->
+                    Log.e("LoginActivity", "OnResponse: $response")
+
+                    val jsonObject = JSONObject(response.toString())
+
+                    val intentMenu = Intent(context, ExperienciaDetail::class.java)
+                    intentMenu.putExtra("postID", postID)
+                    startActivity(intentMenu)
+
+                    //  Toast.makeText(this@LoginActivity, response.toString(), Toast.LENGTH_LONG).show()
+                },
+                Response.ErrorListener { error ->
+                    Log.e("OnError", error.toString())
+                })
+
+            queue.add(objRequest)
+
         }
 
 
     }
 
+    fun getStringImage(bmp: Bitmap): String {
+        val baos = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val imageBytes = baos.toByteArray()
+        val encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT)
+        return encodedImage
+
+    }
 
 
     override fun startActivity(context: Context, bitmap: Bitmap) {
