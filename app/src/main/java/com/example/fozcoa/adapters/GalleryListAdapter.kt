@@ -28,14 +28,6 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
     override fun onBindViewHolder(holder: GalleryListAdapter.ViewHolder, position: Int) {
 
         val typeImage = imagesList.get(position).type
-        
-        if(typeImage == "foto"){
-            holder.iconImageView.setImageResource(R.drawable.photo_icon)
-        } else if(typeImage == "video"){
-            holder.iconImageView.setImageResource(R.drawable.video_icon)
-        } else if (typeImage == "360º"){
-            holder.iconImageView.setImageResource(R.drawable.icon_360)
-        }
 
         Picasso.with(context).load(imagesList[position].url).into(holder.imageView)
 
@@ -48,7 +40,6 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val imageView = itemView.findViewById(R.id.galleryItem) as ImageView
-        val iconImageView = itemView.findViewById(R.id.iconImageView) as ImageView
 
     }
 

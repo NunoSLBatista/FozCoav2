@@ -1,23 +1,24 @@
 package com.example.fozcoa
 
+import android.app.Dialog
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
+import android.view.Window
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fozcoa.adapters.GalleryListAdapter
-import com.example.fozcoa.adapters.MiradouroListAdapter
 import com.example.fozcoa.adapters.TypeGalleryListAdapter
 import com.example.fozcoa.models.ImageGallery
 import com.example.fozcoa.models.Miradouro
 import com.example.fozcoa.models.TypeGalleryItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_miradouro_detail.*
-import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.fragment_dashboard.view.*
+
 
 class MiradouroDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener, TypeGalleryListAdapter.OnActionListener {
 
@@ -67,6 +68,10 @@ class MiradouroDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener
     }
 
     override fun startActivity(context: Context, galleryItem: ImageGallery) {
+
+        val bottomSheetDialogFragment = ImageDialog()
+        bottomSheetDialogFragment.url = galleryItem.url
+        bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
 
     }
 
