@@ -25,6 +25,7 @@ import com.example.fozcoa.R
 import com.example.fozcoa.adapters.ExperienciaListAdapter
 import com.example.fozcoa.models.Experiencia
 import com.example.fozcoa.models.ImageGallery
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -61,7 +62,7 @@ class HomeFragment : Fragment(), ExperienciaListAdapter.OnActionListener {
 
                     try {
 
-                        Log.d("response", response)
+                        Log.d("responseExperiencia", response)
 
                         experienciaListArray.clear()
 
@@ -72,10 +73,7 @@ class HomeFragment : Fragment(), ExperienciaListAdapter.OnActionListener {
                         for (i in 0 until jsonArray.length()) {
 
                             val experienciaObj = jsonArray.getJSONObject(i)
-
-
                             val galleryArray = experienciaObj.getJSONArray("images")
-
                             val arrayGallery = ArrayList<ImageGallery>()
 
                             for(j in 0 until galleryArray.length()){
@@ -96,12 +94,14 @@ class HomeFragment : Fragment(), ExperienciaListAdapter.OnActionListener {
                             experienciaListArray.add(Experiencia(id, nome, urlImage, description, arrayGallery, userId))
                         }
 
-                        val adapterExperiencia = ExperienciaListAdapter(context!!, experienciaListArray, this)
-                        view.experienciaListView.layoutManager =
-                            LinearLayoutManager(context, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
-                        view.experienciaListView.adapter = adapterExperiencia
+                        if(experienciaListArray != null && experienciaListArray.size > 0){
+                            val adapterExperiencia = ExperienciaListAdapter(context!!, experienciaListArray, this)
+                            view.experienciaListView.layoutManager =
+                                LinearLayoutManager(context, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
+                            view.experienciaListView.adapter = adapterExperiencia
+                        }
 
-
+                        loadingPanelExperiencias.visibility = View.GONE
 
                     } catch (e: JSONException) {
                         e.printStackTrace()

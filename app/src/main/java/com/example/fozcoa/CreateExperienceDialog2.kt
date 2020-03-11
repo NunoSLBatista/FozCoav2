@@ -28,6 +28,7 @@ import androidx.core.app.NotificationCompat.getExtras
 import android.graphics.BitmapFactory
 import android.R.attr.data
 import android.R.attr.data
+import android.content.SharedPreferences
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
@@ -49,9 +50,9 @@ class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : Bottom
     private var fragmentView: View? = null
     var postID = 0
 
-    private val URL = "http://app.ecoa.pt/api/galley/create.php"
+    private val URL = "http://app.ecoa.pt/api/galleryItem/create_experience.php"
     internal var request: StringRequest? = null
-
+    var sharedPreferences : SharedPreferences? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,6 +63,7 @@ class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : Bottom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences= activity!!.getSharedPreferences("ecoa", Context.MODE_PRIVATE)
         val itemAdapter = ScrollGalleryAdapter(context!!, this)
         picker.setSlideOnFling(true);
         picker.adapter = itemAdapter
@@ -82,8 +84,9 @@ class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : Bottom
 
             try {
 
-                //historyObject.put("id","1");
-                postObject.put("postID", postID)
+                postObject.put("postId", postID)
+                postObject.put("typePost", "experiencia")
+                postObject.put("userId", sharedPreferences!!.getInt("userId", 0))
 
                 val imageJson = JSONArray()
 
@@ -102,7 +105,7 @@ class CreateExperienceDialog2 (var arrayListImages : ArrayList<Bitmap>) : Bottom
                 Response.Listener { response ->
                     Log.e("LoginActivity", "OnResponse: $response")
 
-                    val jsonObject = JSONObject(response.toString())
+                   // val jsonObject = JSONObject(response.toString())
 
                     val intentMenu = Intent(context, ExperienciaDetail::class.java)
                     intentMenu.putExtra("postID", postID)

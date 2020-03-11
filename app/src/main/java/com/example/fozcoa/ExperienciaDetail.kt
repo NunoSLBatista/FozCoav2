@@ -69,6 +69,7 @@ class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListen
 
         createExperiencia.setOnClickListener {
             val bottomSheetDialogFragment = CreateExperienceDialog()
+            Log.d("PostID", experienciaItem!!.id.toString())
             bottomSheetDialogFragment.postID = experienciaItem!!.id
             bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
         }

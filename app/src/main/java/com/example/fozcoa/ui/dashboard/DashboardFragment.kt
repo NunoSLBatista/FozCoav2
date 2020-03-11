@@ -106,7 +106,7 @@ class DashboardFragment : Fragment(), MiradouroListAdapter.OnActionListener {
                             LinearLayoutManager(context, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
                         view.miradourosListView.adapter = adapterMiradouro
 
-
+                        loadingPanelMiradouros.visibility = View.GONE
 
                     } catch (e: JSONException) {
                         e.printStackTrace()
