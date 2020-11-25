@@ -77,6 +77,18 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="-5dp"
+        android:text="esqueceu-se password"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:fontFamily="@font/montserrat_light" />
+
     <LinearLayout
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
@@ -102,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:scaleType="centerInside"
-            android:src="@drawable/semi_circle" />
+            app:srcCompat="@drawable/semi_circle" />
 
 
     </LinearLayout>
@@ -133,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:scaleType="centerInside"
-            android:src="@drawable/semi_circle" />
+            app:srcCompat="@drawable/semi_circle" />
 
 
     </LinearLayout>

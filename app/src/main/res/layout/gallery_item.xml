@@ -11,4 +11,11 @@
         android:layout_height="120dp"
         android:scaleType="centerCrop" />
 
+    <VideoView
+        android:id="@+id/videoItem"
+        android:layout_width="160dp"
+        android:layout_height="120dp"
+
+        android:scaleType="fitCenter" />
+
 </RelativeLayout>

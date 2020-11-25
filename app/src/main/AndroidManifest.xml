@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fozcoa">
+    package="com.fozcoa.fozcoa">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name="com.fozcoa.fozcoa.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,15 +18,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VideoPlayerActivity" android:screenOrientation="landscape" ></activity>
-        <activity android:name=".MiradouroDetail" />
-        <activity android:name=".ExperienciaDetail" />
-        <activity android:name=".MenuActivity" />
+        <activity android:name="com.fozcoa.fozcoa.ForgotPassword"></activity>
+        <activity android:name="com.fozcoa.fozcoa.MiradouroViewer" />
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+            android:name="com.fozcoa.fozcoa.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name="com.fozcoa.fozcoa.VideoPlayerActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.fozcoa.fozcoa.MiradouroDetail"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fozcoa.fozcoa.ExperienciaDetail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fozcoa.fozcoa.MenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fozcoa.fozcoa.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fozcoa.fozcoa.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fozcoa.fozcoa.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fozcoa.fozcoa.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

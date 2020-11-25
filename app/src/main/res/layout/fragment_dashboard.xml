@@ -13,13 +13,14 @@
     <RelativeLayout
         android:id="@+id/loadingPanelMiradouros"
         android:layout_width="match_parent"
-        android:layout_height="698dp"
+        android:layout_height="800dp"
         android:gravity="center">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true" />
+            android:indeterminate="true"
+            android:indeterminateTint="#0b562e"/>
     </RelativeLayout>
 
     <LinearLayout
