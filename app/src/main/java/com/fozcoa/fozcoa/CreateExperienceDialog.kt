@@ -15,7 +15,9 @@ import android.app.Activity.RESULT_OK
 import android.provider.MediaStore
 import com.fozcoa.fozcoa.models.Experiencia
 import android.R.attr.data
-
+import android.util.Log
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_login.*
 
 
 class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter.OnActionListener {
@@ -23,6 +25,7 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
     private var fragmentView: View? = null
     val PICK_IMAGE = 1
     var arrayListImages = ArrayList<Bitmap>()
+    var videoList = ArrayList<String>()
     var postID = 0
     var experienciaDetail : Experiencia? = null
 
@@ -39,23 +42,31 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
         super.onViewCreated(view, savedInstanceState)
 
         nextStep.setOnClickListener {
-            this.dismiss()
-            val bottomSheetDialogFragment = CreateExperienceDialog2(arrayListImages)
-            bottomSheetDialogFragment.postID = postID
-            bottomSheetDialogFragment.experienciaDetail = experienciaDetail
-            bottomSheetDialogFragment.show(activity!!.supportFragmentManager, bottomSheetDialogFragment.tag)
+            if(arrayListImages.count() > 0) {
+                this.dismiss()
+                val bottomSheetDialogFragment = CreateExperienceDialog2(arrayListImages)
+                bottomSheetDialogFragment.postID = postID
+                bottomSheetDialogFragment.experienciaDetail = experienciaDetail
+                bottomSheetDialogFragment.show(activity!!.supportFragmentManager, bottomSheetDialogFragment.tag)
+            }
+            else {
+                Snackbar.make(buttonLogin, "Necessário adicionar pelo menos uma foto.", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.white))
+                    .setTextColor(resources.getColor(R.color.black))
+                    .show()
+            }
         }
 
         uploadImage.setOnClickListener {
             val cameraIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(cameraIntent, PICK_IMAGE)
         }
 
         previewImages.setHasFixedSize(true)
 
         previewImages.layoutManager = GridLayoutManager(context!!, 3)
-        previewImages.adapter = UploadListAdapter(context!!, arrayListImages, this)
+        previewImages.adapter = UploadListAdapter(context!!, arrayListImages, videoList, this)
 
     }
 
@@ -72,7 +83,10 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
         if (requestCode == 1) {
             val path = data!!.getData()!!.getPath()
             if(path!!.contains("/video/")){
-
+                Log.d("Create:", data!!.getData()!!.path.toString());
+                videoList.add("content://media/external/video/media/37/ORIGINAL/NONE/video/mp4/1090945000");
+                previewImages.layoutManager = GridLayoutManager(context!!, 3)
+                previewImages.adapter = UploadListAdapter(context!!, arrayListImages, videoList, this)
             }else if(path.contains("/images/")){
                 val returnUri = data.getData()
                 val bitmapImage =
@@ -81,7 +95,13 @@ class CreateExperienceDialog () : BottomSheetDialogFragment(), UploadListAdapter
                 // Do something with the bitmap
                 arrayListImages.add(bitmapImage!!)
                 previewImages.layoutManager = GridLayoutManager(context!!, 3)
-                previewImages.adapter = UploadListAdapter(context!!, arrayListImages, this)
+                previewImages.adapter = UploadListAdapter(context!!, arrayListImages, videoList, this)
+            }
+            else {
+                Snackbar.make(buttonLogin, "", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.white))
+                    .setTextColor(resources.getColor(R.color.black))
+                    .show()
             }
 
         }
