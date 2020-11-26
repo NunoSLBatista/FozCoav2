@@ -18,6 +18,7 @@ import android.os.Build
 import android.util.Log
 import android.widget.VideoView
 import com.bumptech.glide.request.RequestOptions
+import com.google.vr.cardboard.ThreadUtils
 
 
 class VideosListAdapter (private val context: Context, private val videosList: ArrayList<Videos>, val listener : OnActionListener) : RecyclerView.Adapter<VideosListAdapter.ViewHolder>(){
@@ -39,15 +40,39 @@ class VideosListAdapter (private val context: Context, private val videosList: A
             listener.startActivity(context, videosList.get(position))
         }
 
-        holder.imageView.setVideoURI(videosList.get(position).uri)
-        holder.imageView.seekTo(1)
-
+        val thread = Thread(Runnable {
+            var bitmap =
+                retriveVideoFrameFromVideo(videosList.get(position).uri.toString())
+            if (bitmap != null) {
+                ThreadUtils.runOnUiThread(Thread(Runnable {
+                    holder.imageView.setImageBitmap(bitmap)
+                }))
+            }
+        })
+        thread.start()
     }
+
+    fun retriveVideoFrameFromVideo(videoPath: String): Bitmap? {
+        var bitmap: Bitmap? = null
+        var mediaMetadataRetriever: MediaMetadataRetriever? = null
+        try {
+            mediaMetadataRetriever = MediaMetadataRetriever()
+            mediaMetadataRetriever.setDataSource(videoPath, HashMap())
+            //   mediaMetadataRetriever.setDataSource(videoPath);
+            bitmap = mediaMetadataRetriever.frameAtTime
+        } catch (e: Exception) {
+            return null;
+        } finally {
+            mediaMetadataRetriever?.release()
+        }
+        return bitmap
+    }
+
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val titleTextView = itemView.findViewById(R.id.titleVideo) as TextView
-        val imageView = itemView.findViewById(R.id.myImageView) as VideoView
+        val imageView = itemView.findViewById(R.id.myImageView) as ImageView
         val carView = itemView.findViewById(R.id.boxVideo) as CardView
 
     }

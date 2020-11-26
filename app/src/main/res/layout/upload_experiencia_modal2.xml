@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:id="@+id/parentView2"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/loadingPanelUpload"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="800dp"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-      <ProgressBar
-          android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/loadingPanelUpload"
+            android:layout_width="match_parent"
+            android:layout_height="800dp"
+            android:gravity="center">
+
+          <ProgressBar
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:indeterminate="true"
+              android:indeterminateTint="#0b562e"/>
+        </RelativeLayout>
+
+
+        <com.yarolegovich.discretescrollview.DiscreteScrollView
+          android:id="@+id/picker"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:indeterminate="true"
-          android:indeterminateTint="#0b562e"/>
-    </RelativeLayout>
+          app:dsv_orientation="horizontal" />
 
 
-    <com.yarolegovich.discretescrollview.DiscreteScrollView
-      android:id="@+id/picker"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:dsv_orientation="horizontal" />
-
-
-  <Button
-      android:id="@+id/nextStep"
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:layout_marginStart="20dp"
-      android:layout_marginTop="5dp"
-      android:layout_marginBottom="15dp"
-      android:layout_marginEnd="20dp"
-      android:background="@drawable/button_corner_radius"
-      android:fontFamily="@font/montserrat"
-      android:stateListAnimator="@null"
-      android:text="@string/next"
-      android:textAllCaps="false"
-      android:textColor="@color/white"
-      android:textSize="19sp" />
-
-</LinearLayout>
+      <Button
+          android:id="@+id/nextStep"
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:layout_marginStart="20dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginBottom="15dp"
+          android:layout_marginEnd="20dp"
+          android:background="@drawable/button_corner_radius"
+          android:fontFamily="@font/montserrat"
+          android:stateListAnimator="@null"
+          android:text="@string/next"
+          android:textAllCaps="false"
+          android:textColor="@color/white"
+          android:textSize="19sp" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

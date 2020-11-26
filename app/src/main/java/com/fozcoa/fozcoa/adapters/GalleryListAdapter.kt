@@ -14,6 +14,9 @@ import com.bumptech.glide.Glide
 import com.fozcoa.fozcoa.R
 import com.fozcoa.fozcoa.models.ImageGallery
 import java.net.URI
+import android.media.MediaMetadataRetriever
+import android.graphics.Bitmap
+import com.google.vr.cardboard.ThreadUtils.runOnUiThread
 
 
 class GalleryListAdapter (private val context: Context, private val imagesList: ArrayList<ImageGallery>, val listener : OnActionListener) : RecyclerView.Adapter<GalleryListAdapter.ViewHolder>(){
@@ -32,11 +35,32 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
         val typeImage = imagesList.get(position).type
 
         if(typeImage == "video"){
-            holder.imageView.isVisible = false
-            holder.videoView.isVisible = true
+            holder.videoView.isVisible = false
+            holder.imageView.isVisible = true
+            try {
+                holder.imageView.setImageResource(R.drawable.bg_miradouro_1)
+                holder.imageView.setOnClickListener {
+                    listener.startActivity(context, imagesList.get(position))
+                }
+                val thread = Thread(Runnable {
+                    var bitmap =
+                        retriveVideoFrameFromVideo(imagesList.get(position).url)
+                    if (bitmap != null) {
+                        runOnUiThread(Thread(Runnable {
+                            holder.imageView.setImageBitmap(bitmap)
+                        }))
+                    }
+                })
+                thread.start()
+            } catch (throwable: Throwable) {
+                throwable.printStackTrace()
+            }
 
-            holder.videoView.setVideoURI(Uri.parse(imagesList.get(position).url));
-            holder.videoView.seekTo( 1 );
+            //holder.imageView.isVisible = false
+            //holder.videoView.isVisible = true
+
+            //holder.videoView.setVideoURI(Uri.parse(imagesList.get(position).url));
+            //holder.videoView.seekTo( 1 );
 
         }else {
             holder.videoView.isVisible = false
@@ -53,6 +77,22 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
             }
         }
 
+    }
+
+    fun retriveVideoFrameFromVideo(videoPath: String): Bitmap? {
+        var bitmap: Bitmap? = null
+        var mediaMetadataRetriever: MediaMetadataRetriever? = null
+        try {
+            mediaMetadataRetriever = MediaMetadataRetriever()
+            mediaMetadataRetriever.setDataSource(videoPath, HashMap())
+            //   mediaMetadataRetriever.setDataSource(videoPath);
+            bitmap = mediaMetadataRetriever.frameAtTime
+        } catch (e: Exception) {
+            return null;
+        } finally {
+            mediaMetadataRetriever?.release()
+        }
+        return bitmap
     }
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {

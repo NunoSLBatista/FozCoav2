@@ -1,6 +1,7 @@
 package com.fozcoa.fozcoa
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,9 +23,9 @@ import kotlinx.android.synthetic.main.activity_miradouro_detail.galleryView
 import kotlinx.android.synthetic.main.activity_miradouro_detail.goBack
 import kotlinx.android.synthetic.main.activity_miradouro_detail.titleMiradouro
 import kotlinx.android.synthetic.main.activity_miradouro_detail.typeListView
+import kotlinx.android.synthetic.main.upload_experiencia_modal2.*
 
-class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener, TypeGalleryListAdapter.OnActionListener {
-
+class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListener, TypeGalleryListAdapter.OnActionListener, CreateExperienceDialog2.OnActionListener {
     var experienciaItem : Experiencia? = null
     var currentGalleryList: ArrayList<ImageGallery>? = null
     var typeItemList = ArrayList<TypeGalleryItem>()
@@ -38,7 +39,6 @@ class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListen
         galleryView.setHasFixedSize(true)
 
         experienciaItem = intent.getParcelableExtra("experiencia")
-
         val bgImage = findViewById(R.id.bgImage) as ImageView
 
         Glide
@@ -78,6 +78,7 @@ class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListen
             val blocked = sharedPreferences!!.getInt("blocked", 0)
             if(blocked < 1){
                 val bottomSheetDialogFragment = CreateExperienceDialog()
+                bottomSheetDialogFragment.listener = this;
                 bottomSheetDialogFragment.postID = experienciaItem!!.id
                 bottomSheetDialogFragment.experienciaDetail = experienciaItem
                 bottomSheetDialogFragment.show(supportFragmentManager, bottomSheetDialogFragment.tag)
@@ -95,10 +96,32 @@ class ExperienciaDetail : AppCompatActivity(), GalleryListAdapter.OnActionListen
 
     }
 
+    override fun startActivity(context: Context, experienciaItem: Experiencia) {
+        this.experienciaItem = experienciaItem
+        this.currentGalleryList = experienciaItem.listImages
+
+        val typeAdapter = TypeGalleryListAdapter(applicationContext, typeItemList, 0, this)
+        typeListView.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+        typeListView.adapter = typeAdapter
+
+        galleryAdapter = GalleryListAdapter(applicationContext, experienciaItem!!.listImages, this)
+        galleryView.layoutManager = GridLayoutManager(applicationContext, 3)
+        galleryView.adapter = galleryAdapter
+
+
+        Snackbar.make(bgImage, "Submeteste uma nova experiência", Snackbar.LENGTH_LONG)
+            .setBackgroundTint(resources.getColor(R.color.themeRegister))
+            .setTextColor(resources.getColor(R.color.white))
+            .show()
+
+    }
+
     override fun startActivity(context: Context, galleryItem: ImageGallery) {
         //Toast.makeText(context, "teste", Toast.LENGTH_LONG).show()
         if(galleryItem.type == "video"){
-
+            val intentDetailVideo = Intent(context, VideoPlayerActivity::class.java)
+            intentDetailVideo.putExtra("video2", galleryItem)
+            startActivity(intentDetailVideo)
         }else{
             val detailPhotoDialogFragment = DetailPhotoDialog()
             detailPhotoDialogFragment.galleryItem = galleryItem

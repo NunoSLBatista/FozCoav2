@@ -28,15 +28,15 @@ class TypeGalleryListAdapter (private val context: Context, private val typesLis
         val normalFont : Typeface? = ResourcesCompat.getFont(context, R.font.montserrat_light)
        val semiBoldFont : Typeface? = ResourcesCompat.getFont(context, R.font.montserrat_semi_bold)
 
-        if(positionSelected == position){
-            if(typesList.get(position).name == "image"){
-                holder.typeTextView.text = "fotos"
-            } else {
-                holder.typeTextView.text = typesList.get(position).name
-            }
-            holder.typeTextView.typeface = semiBoldFont
+        if(typesList.get(position).name == "image"){
+            holder.typeTextView.text = "fotos"
         } else {
             holder.typeTextView.text = typesList.get(position).name
+        }
+
+        if(positionSelected == position){
+            holder.typeTextView.typeface = semiBoldFont
+        } else {
             holder.typeTextView.typeface = normalFont
         }
 

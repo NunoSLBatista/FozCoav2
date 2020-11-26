@@ -14,7 +14,6 @@ import android.util.Log
 import android.graphics.BitmapFactory
 
 
-
 class UploadListAdapter (private val context: Context, private val imagesList: ArrayList<Bitmap>, private val videoList: ArrayList<String>, val listener : OnActionListener) : RecyclerView.Adapter<UploadListAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UploadListAdapter.ViewHolder {
@@ -40,16 +39,9 @@ class UploadListAdapter (private val context: Context, private val imagesList: A
         else{ //Videos
             val videoIndex = position - imagesList.count();
 
-            val THUMBSIZE = 64
-
-            val ThumbImage = ThumbnailUtils.extractThumbnail(
-                BitmapFactory.decodeFile(videoList.get(videoIndex)),
-                THUMBSIZE, THUMBSIZE
-            )
-
             Log.d("Adapter", "Video: " + videoList.get(videoIndex))
-            // thumb = ThumbnailUtils.createVideoThumbnail(videoList.get(videoIndex), MediaStore.Video.Thumbnails.MICRO_KIND);
-            holder.imageView.setImageBitmap(ThumbImage)
+            val thumb = ThumbnailUtils.createVideoThumbnail(videoList.get(videoIndex), MediaStore.Video.Thumbnails.MICRO_KIND);
+            holder.imageView.setImageBitmap(thumb)
         }
     }
 
