@@ -1,6 +1,7 @@
 package com.fozcoa.fozcoa
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -23,6 +24,8 @@ import kotlinx.android.synthetic.main.activity_register.goBack
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.util.*
+import javax.xml.datatype.DatatypeConstants.MONTHS
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -60,6 +63,23 @@ class ProfileActivity : AppCompatActivity() {
         profile_image_edit.setOnClickListener {
             val cameraIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(cameraIntent, PICK_IMAGE)
+        }
+
+        ageEditText.setOnClickListener {
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+
+            val dpd = DatePickerDialog(applicationContext, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+
+                // Display Selected date in textbox
+                ageEditText.setText("" + dayOfMonth + " " + monthOfYear + ", " + year)
+
+            }, year, month, day)
+
+            dpd.show()
         }
 
         editAccount.setOnClickListener {
