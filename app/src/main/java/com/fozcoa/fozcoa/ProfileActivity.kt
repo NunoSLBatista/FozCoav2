@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Base64
 import android.util.Log
+import android.widget.DatePicker
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_register.goBack
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.xml.datatype.DatatypeConstants.MONTHS
 
@@ -35,6 +37,7 @@ class ProfileActivity : AppCompatActivity() {
     var sharedPreferences : SharedPreferences? = null
     val PICK_IMAGE = 1
     var bitmap : Bitmap? = null
+    var cal = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +47,7 @@ class ProfileActivity : AppCompatActivity() {
 
         val url = sharedPreferences!!.getString("photo_url", "")
         val name = sharedPreferences!!.getString("name", "")
-        val age = sharedPreferences!!.getInt("age", 0)
+        val age = sharedPreferences!!.getString("age", "--/--/----")
 
         Glide
             .with(applicationContext)
@@ -65,22 +68,30 @@ class ProfileActivity : AppCompatActivity() {
             startActivityForResult(cameraIntent, PICK_IMAGE)
         }
 
-        ageEditText.setOnClickListener {
-            val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
-
-
-            val dpd = DatePickerDialog(applicationContext, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-
-                // Display Selected date in textbox
-                ageEditText.setText("" + dayOfMonth + " " + monthOfYear + ", " + year)
-
-            }, year, month, day)
-
-            dpd.show()
+        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+            override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                   dayOfMonth: Int) {
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                updateDateInView()
+            }
         }
+
+        ageEditText.setOnFocusChangeListener { view, b ->  run{
+                if(b) {
+                    DatePickerDialog(
+                        this@ProfileActivity,
+                        dateSetListener,
+                        // set DatePickerDialog to point to today's date when it loads up
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH),
+                        cal.get(Calendar.DAY_OF_MONTH)
+                    ).show()
+                }
+            }
+        }
+
 
         editAccount.setOnClickListener {
             val name = nameEditTextEdit.text.toString()
@@ -90,6 +101,12 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
+    private fun updateDateInView() {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.ENGLISH)
+        ageEditText!!.setText(sdf.format(cal.getTime()))
+        window.decorView.clearFocus();
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) {
@@ -111,7 +128,7 @@ class ProfileActivity : AppCompatActivity() {
 
             val postObject = JSONObject()
             val queue = Volley.newRequestQueue(this)
-            sharedPreferences!!.edit().putInt("age", age.toInt()).apply()
+            sharedPreferences!!.edit().putString("age", age).apply()
 
             try {
                 postObject.put("userId", sharedPreferences!!.getInt("userId", 0))
