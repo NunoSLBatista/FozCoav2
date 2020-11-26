@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fozcoa.fozcoa.R
 import android.util.Log
 import android.graphics.BitmapFactory
+import android.util.Size
+import java.io.File
+import android.annotation.SuppressLint
+import android.os.CancellationSignal
 
 
 class UploadListAdapter (private val context: Context, private val imagesList: ArrayList<Bitmap>, private val videoList: ArrayList<String>, val listener : OnActionListener) : RecyclerView.Adapter<UploadListAdapter.ViewHolder>(){
@@ -25,6 +29,7 @@ class UploadListAdapter (private val context: Context, private val imagesList: A
        return imagesList.size + videoList.size
     }
 
+    @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: UploadListAdapter.ViewHolder, position: Int) {
         //Images
         Log.d("Adapter", position.toString())
@@ -40,7 +45,8 @@ class UploadListAdapter (private val context: Context, private val imagesList: A
             val videoIndex = position - imagesList.count();
 
             Log.d("Adapter", "Video: " + videoList.get(videoIndex))
-            val thumb = ThumbnailUtils.createVideoThumbnail(videoList.get(videoIndex), MediaStore.Video.Thumbnails.MICRO_KIND);
+            val ca = CancellationSignal()
+            val thumb = ThumbnailUtils.createVideoThumbnail(File(videoList.get(videoIndex)), Size(64, 64), ca);
             holder.imageView.setImageBitmap(thumb)
         }
     }
