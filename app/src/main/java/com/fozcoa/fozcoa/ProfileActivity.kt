@@ -47,7 +47,7 @@ class ProfileActivity : AppCompatActivity() {
 
         val url = sharedPreferences!!.getString("photo_url", "")
         val name = sharedPreferences!!.getString("name", "")
-        val age = sharedPreferences!!.getString("age", "--/--/----")
+        val age = sharedPreferences!!.getString("age2", "--/--/----")
 
         Glide
             .with(applicationContext)
@@ -128,7 +128,7 @@ class ProfileActivity : AppCompatActivity() {
 
             val postObject = JSONObject()
             val queue = Volley.newRequestQueue(this)
-            sharedPreferences!!.edit().putString("age", age).apply()
+            sharedPreferences!!.edit().putString("age2", age).apply()
 
             try {
                 postObject.put("userId", sharedPreferences!!.getInt("userId", 0))

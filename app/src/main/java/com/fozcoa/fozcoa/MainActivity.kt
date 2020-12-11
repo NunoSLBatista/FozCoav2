@@ -17,12 +17,30 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var navView : BottomNavigationView? = null
         var runApiExperience = true
+        var runApiMiradouro = true
+        var runApiVideo = true
         fun apiChange(running: Boolean) {
             runApiExperience = running
             if (!runApiExperience) {
                 navView!!.menu.findItem(R.id.navigation_home).isEnabled = false;
             } else {
                 navView!!.menu.findItem(R.id.navigation_home).isEnabled = true;
+            }
+        }
+        fun apiChangeMiradouro(running: Boolean){
+            runApiMiradouro = running
+            if (!runApiMiradouro) {
+                navView!!.menu.findItem(R.id.navigation_dashboard).isEnabled = false;
+            } else {
+                navView!!.menu.findItem(R.id.navigation_dashboard).isEnabled = true;
+            }
+        }
+        fun apiChangeVideos(running: Boolean){
+            runApiVideo = running
+            if (!runApiVideo) {
+                navView!!.menu.findItem(R.id.navigation_dashboard).isEnabled = false;
+            } else {
+                navView!!.menu.findItem(R.id.navigation_dashboard).isEnabled = true;
             }
         }
     }

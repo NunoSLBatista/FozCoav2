@@ -57,79 +57,86 @@ class NotificationsFragment : Fragment(), VideosListAdapter.OnActionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var sharedPreferences : SharedPreferences? = null
-        sharedPreferences = this.activity!!.getSharedPreferences("ecoa", Context.MODE_PRIVATE)
+        if (MainActivity.runApiVideo) {
 
-        if(sharedPreferences!!.getString("photo_url", "") != ""){
-            val photo_url = sharedPreferences!!.getString("photo_url", "")
-            Glide
-                .with(context!!)
-                .load(photo_url)
-                .centerCrop()
-                .placeholder(R.drawable.profile_default)
-                .into(profile_image_video);
-        }
+            MainActivity.apiChangeVideos(false)
+            var sharedPreferences: SharedPreferences? = null
+            sharedPreferences = this.activity!!.getSharedPreferences("ecoa", Context.MODE_PRIVATE)
 
-        profile_image_video.setOnClickListener(View.OnClickListener {
-            val popupMenu: PopupMenu = PopupMenu(context, profile_image_video)
-            popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                when(item.itemId) {
-                    R.id.logout ->
-                        logout()
-                }
-                true
+            if (sharedPreferences!!.getString("photo_url", "") != "") {
+                val photo_url = sharedPreferences!!.getString("photo_url", "")
+                Glide
+                    .with(context!!)
+                    .load(photo_url)
+                    .centerCrop()
+                    .placeholder(R.drawable.profile_default)
+                    .into(profile_image_video);
+            }
+
+            profile_image_video.setOnClickListener(View.OnClickListener {
+                val popupMenu: PopupMenu = PopupMenu(context, profile_image_video)
+                popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.logout ->
+                            logout()
+                    }
+                    true
+                })
+                popupMenu.show()
             })
-            popupMenu.show()
-        })
 
-        val requestQueue: RequestQueue
+            val requestQueue: RequestQueue
 
-        requestQueue = Volley.newRequestQueue(context)
+            requestQueue = Volley.newRequestQueue(context)
 
-        request = object : StringRequest(Request.Method.POST, URL,
-            Response.Listener { response ->
+            request = object : StringRequest(Request.Method.POST, URL,
+                Response.Listener { response ->
 
-                if (response.length > 0) {
+                    if (response.length > 0) {
 
-                    try {
+                        try {
 
-                        videosList.clear()
+                            videosList.clear()
 
-                        val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response)
 
-                        val jsonArray = jsonObject.getJSONArray("records")
+                            val jsonArray = jsonObject.getJSONArray("records")
 
-                        for (i in 0 until jsonArray.length()) {
+                            for (i in 0 until jsonArray.length()) {
 
-                            val videoObj = jsonArray.getJSONObject(i)
-                            val nome = videoObj.getString("name")
-                            val id = videoObj.getInt("id")
-                            val url = videoObj.getString("url")
-                            val uri = Uri.parse(url)
+                                val videoObj = jsonArray.getJSONObject(i)
+                                val nome = videoObj.getString("name")
+                                val id = videoObj.getInt("id")
+                                val url = videoObj.getString("url")
+                                val uri = Uri.parse(url)
 
-                            videosList.add(Videos(id, nome, uri))
+                                videosList.add(Videos(id, nome, uri))
+                            }
+
+                            val adapterVideo = VideosListAdapter(context!!, videosList, this)
+                            view.videosListView.layoutManager =
+                                LinearLayoutManager(
+                                    context,
+                                    RecyclerView.VERTICAL,
+                                    false
+                                ) as RecyclerView.LayoutManager?
+                            view.videosListView.adapter = adapterVideo
+                            MainActivity.apiChangeVideos(true)
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
 
-                        val adapterVideo = VideosListAdapter(context!!, videosList, this)
-                        view.videosListView.layoutManager =
-                            LinearLayoutManager(context, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
-                        view.videosListView.adapter = adapterVideo
-
-
-
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
                     }
+                }, Response.ErrorListener {
+                    Log.d("error volley", it.toString())
 
-                }
-            }, Response.ErrorListener {
-                Log.d("error volley", it.toString())
+                }) {
+            }
 
-            }) {
+            requestQueue.add<String>(request)
         }
-
-        requestQueue.add<String>(request)
     }
 
     override fun onResume() {

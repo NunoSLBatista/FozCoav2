@@ -58,98 +58,112 @@ class DashboardFragment : Fragment(), MiradouroListAdapter.OnActionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var sharedPreferences : SharedPreferences? = null
-        sharedPreferences = this.activity!!.getSharedPreferences("ecoa", Context.MODE_PRIVATE)
+        if(MainActivity.runApiMiradouro) {
 
-        if(sharedPreferences!!.getString("photo_url", "") != ""){
-            val photo_url = sharedPreferences!!.getString("photo_url", "")
-            Glide
-                .with(context!!)
-                .load(photo_url)
-                .centerCrop()
-                .placeholder(R.drawable.profile_default)
-                .into(profile_image);
-          //  Picasso.with(context).load(photo_url).into(profile_image)
-        }
+            MainActivity.apiChangeMiradouro(false)
+            var sharedPreferences: SharedPreferences? = null
+            sharedPreferences = this.activity!!.getSharedPreferences("ecoa", Context.MODE_PRIVATE)
 
-        profile_image.setOnClickListener(View.OnClickListener {
-            val popupMenu: PopupMenu = PopupMenu(context, profile_image)
-            popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                when(item.itemId) {
-                    R.id.logout ->
-                       logout()
-                }
-                true
+            if (sharedPreferences!!.getString("photo_url", "") != "") {
+                val photo_url = sharedPreferences!!.getString("photo_url", "")
+                Glide
+                    .with(context!!)
+                    .load(photo_url)
+                    .centerCrop()
+                    .placeholder(R.drawable.profile_default)
+                    .into(profile_image);
+                //  Picasso.with(context).load(photo_url).into(profile_image)
+            }
+
+            profile_image.setOnClickListener(View.OnClickListener {
+                val popupMenu: PopupMenu = PopupMenu(context, profile_image)
+                popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.logout ->
+                            logout()
+                    }
+                    true
+                })
+                popupMenu.show()
             })
-            popupMenu.show()
-        })
 
-        val requestQueue: RequestQueue
+            val requestQueue: RequestQueue
 
-        requestQueue = Volley.newRequestQueue(context)
+            requestQueue = Volley.newRequestQueue(context)
 
-        request = object : StringRequest(Request.Method.POST, URL,
-            Response.Listener { response ->
+            request = object : StringRequest(Request.Method.POST, URL,
+                Response.Listener { response ->
 
-                if (response.length > 0) {
+                    if (response.length > 0) {
 
-                    try {
+                        try {
 
-                        miradouroListArray.clear()
+                            miradouroListArray.clear()
 
-                        val jsonObject = JSONObject(response)
+                            val jsonObject = JSONObject(response)
 
-                        val jsonArray = jsonObject.getJSONArray("records")
+                            val jsonArray = jsonObject.getJSONArray("records")
 
-                        for (i in 0 until jsonArray.length()) {
+                            for (i in 0 until jsonArray.length()) {
 
-                            val miradouroObj = jsonArray.getJSONObject(i)
-                            val galleryArray = miradouroObj.getJSONArray("images")
+                                val miradouroObj = jsonArray.getJSONObject(i)
+                                val galleryArray = miradouroObj.getJSONArray("images")
 
-                            val arrayGallery = ArrayList<ImageGallery>()
+                                val arrayGallery = ArrayList<ImageGallery>()
 
-                            for(j in 0 until galleryArray.length()){
-                                val galleryObj = galleryArray.getJSONObject(j)
-                                val id = galleryObj.getInt("id")
-                                val url = galleryObj.getString("url")
-                                val type = galleryObj.getString("type")
-                                val userId = 0
-                                val name = ""
-                                val user_photo = ""
-                                val user = User(userId, name, "", "",null, user_photo, 0)
-                                arrayGallery.add(ImageGallery(id, url, type, user))
+                                for (j in 0 until galleryArray.length()) {
+                                    val galleryObj = galleryArray.getJSONObject(j)
+                                    val id = galleryObj.getInt("id")
+                                    val url = galleryObj.getString("url")
+                                    val type = galleryObj.getString("type")
+                                    val userId = 0
+                                    val name = ""
+                                    val user_photo = ""
+                                    val user = User(userId, name, "", "", null, user_photo, 0)
+                                    arrayGallery.add(ImageGallery(id, url, type, user))
+                                }
+
+                                val nome = miradouroObj.getString("name")
+                                val description = miradouroObj.getString("description")
+                                val id = miradouroObj.getInt("id")
+                                val urlImage = miradouroObj.getString("photo_url")
+
+                                miradouroListArray.add(
+                                    Miradouro(
+                                        id,
+                                        nome,
+                                        urlImage,
+                                        description,
+                                        arrayGallery
+                                    )
+                                )
                             }
 
-                            val nome = miradouroObj.getString("name")
-                            val description = miradouroObj.getString("description")
-                            val id = miradouroObj.getInt("id")
-                            val urlImage = miradouroObj.getString("photo_url")
+                            if (miradouroListArray.count() > 0) {
+                                val adapterMiradouro =
+                                    MiradouroListAdapter(context!!, miradouroListArray, this)
+                                view.miradourosListView.layoutManager =
+                                    LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                                view.miradourosListView.adapter = adapterMiradouro
 
-                            miradouroListArray.add(Miradouro(id, nome, urlImage, description, arrayGallery))
+                                loadingPanelMiradouros.visibility = View.GONE
+                                MainActivity.apiChangeMiradouro(true)
+                            }
+
+                        } catch (e: JSONException) {
+                            e.printStackTrace()
                         }
 
-                        if(miradouroListArray.count() > 0){
-                            val adapterMiradouro = MiradouroListAdapter(context!!, miradouroListArray, this)
-                            view.miradourosListView.layoutManager =
-                                LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                            view.miradourosListView.adapter = adapterMiradouro
-
-                            loadingPanelMiradouros.visibility = View.GONE
-                        }
-
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
                     }
+                }, Response.ErrorListener {
+                    Log.d("error volley", it.toString())
 
-                }
-            }, Response.ErrorListener {
-                Log.d("error volley", it.toString())
+                }) {
+            }
 
-            }) {
+            requestQueue.add<String>(request)
         }
-
-        requestQueue.add<String>(request)
     }
 
     override fun onResume() {
