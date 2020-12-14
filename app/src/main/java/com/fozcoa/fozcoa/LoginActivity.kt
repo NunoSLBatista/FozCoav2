@@ -98,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
 
                         sharedPreferences!!.edit().putInt("userId", userId).apply()
                         sharedPreferences!!.edit().putString("name", name).apply()
-                        sharedPreferences!!.edit().putInt("age", 0).apply()
+                        sharedPreferences!!.edit().putString("age", "").apply()
                         sharedPreferences!!.edit().putInt("admin", admin).apply()
                         sharedPreferences!!.edit().putString("email", userEmail).apply()
                         sharedPreferences!!.edit().putString("photo_url", photo_url).apply()

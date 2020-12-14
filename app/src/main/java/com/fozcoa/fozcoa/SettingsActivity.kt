@@ -140,9 +140,7 @@ class SettingsActivity : AppCompatActivity() {
 
 
         private val sBindPreferencesSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, value ->
-
             true
-
         }
 
         private fun bindPreferencesSummaryToValue(preference: Preference){

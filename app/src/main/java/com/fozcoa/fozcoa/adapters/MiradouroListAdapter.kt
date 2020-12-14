@@ -32,7 +32,7 @@ class MiradouroListAdapter (private val context: Context, private val miradouroL
             .with(context)
             .load(miradouroList[position].mainPicture)
             .centerCrop()
-            .placeholder(R.drawable.bg_miradouro_1)
+            .placeholder(R.drawable.no_image)
             .into(holder.imageView);
         holder.carView.setOnClickListener {
             listener.startActivity(context, miradouroList.get(position))

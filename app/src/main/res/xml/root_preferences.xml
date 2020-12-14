@@ -30,15 +30,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Localização">
-
-        <SwitchPreference
-            app:key="locationPerms"
-            app:defaultValue="false"
-            app:title="Guardar Localização" />
-
-    </PreferenceCategory>
-
 
         <Preference
             app:key="logout"

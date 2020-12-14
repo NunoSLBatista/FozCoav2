@@ -16,6 +16,7 @@ import com.fozcoa.fozcoa.models.ImageGallery
 import java.net.URI
 import android.media.MediaMetadataRetriever
 import android.graphics.Bitmap
+import androidx.core.content.ContextCompat
 import com.google.vr.cardboard.ThreadUtils.runOnUiThread
 
 
@@ -35,10 +36,11 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
         val typeImage = imagesList.get(position).type
 
         if(typeImage == "video"){
+
             holder.videoView.isVisible = false
             holder.imageView.isVisible = true
             try {
-                holder.imageView.setImageResource(R.drawable.bg_miradouro_1)
+                holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.no_image))
                 holder.imageView.setOnClickListener {
                     listener.startActivity(context, imagesList.get(position))
                 }
@@ -69,7 +71,7 @@ class GalleryListAdapter (private val context: Context, private val imagesList: 
                 .with(context)
                 .load(imagesList[position].url)
                 .centerCrop()
-                .placeholder(R.drawable.bg_miradouro_1)
+                .placeholder(R.drawable.no_image)
                 .into(holder.imageView);
 
             holder.imageView.setOnClickListener {

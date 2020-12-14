@@ -45,23 +45,6 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
-        if (ContextCompat.checkSelfPermission(this@MenuActivity,
-                Manifest.permission.ACCESS_FINE_LOCATION) !==
-            PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this@MenuActivity,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-                ActivityCompat.requestPermissions(this@MenuActivity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-            } else {
-                ActivityCompat.requestPermissions(this@MenuActivity,
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-            }
-        }
-
-        // in onCreate() initialize FusedLocationProviderClient
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(applicationContext)
-
-        getLocationUpdates()
 
         var sharedPreferences : SharedPreferences? = null
         sharedPreferences = getSharedPreferences("ecoa", Context.MODE_PRIVATE)
@@ -112,33 +95,6 @@ class MenuActivity : AppCompatActivity() {
     fun logout(){
         val goLogin = Intent(applicationContext, SettingsActivity::class.java)
         startActivity(goLogin)
-    }
-
-    private fun getLocationUpdates()
-    {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(applicationContext)
-        locationRequest = LocationRequest()
-        locationRequest.interval = 50000
-        locationRequest.fastestInterval = 50000
-        locationRequest.smallestDisplacement = 170f // 170 m = 0.1 mile
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY //set according to your app function
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult ?: return
-
-                if (locationResult.locations.isNotEmpty()) {
-                    // get latest location
-                    val location =
-                        locationResult.lastLocation
-                    Log.d("latitude", location.latitude.toString())
-                    // use your location object
-                    // get latitude , longitude and other info from this
-                }else{
-                }
-
-
-            }
-        }
     }
 
     //start location updates

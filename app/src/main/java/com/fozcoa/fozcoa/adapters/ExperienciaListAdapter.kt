@@ -32,7 +32,7 @@ class ExperienciaListAdapter (private val context: Context, private val experien
             .with(context)
             .load(experienciaList[position].mainImage)
             .centerCrop()
-            .placeholder(R.drawable.bg_miradouro_1)
+            .placeholder(R.drawable.no_image)
             .into(holder.imageView);
 
         holder.carView.setOnClickListener {

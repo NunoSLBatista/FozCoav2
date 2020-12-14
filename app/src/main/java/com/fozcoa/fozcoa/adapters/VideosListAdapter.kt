@@ -17,6 +17,7 @@ import android.R.attr.bitmap
 import android.os.Build
 import android.util.Log
 import android.widget.VideoView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.request.RequestOptions
 import com.google.vr.cardboard.ThreadUtils
 
@@ -39,7 +40,7 @@ class VideosListAdapter (private val context: Context, private val videosList: A
         holder.carView.setOnClickListener {
             listener.startActivity(context, videosList.get(position))
         }
-
+        holder.imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.no_image))
         val thread = Thread(Runnable {
             var bitmap =
                 retriveVideoFrameFromVideo(videosList.get(position).uri.toString())

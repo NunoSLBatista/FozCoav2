@@ -84,14 +84,25 @@ class RegisterActivity : AppCompatActivity() {
             val postObject = JSONObject()
             val queue = Volley.newRequestQueue(this)
 
-            try {
-                //historyObject.put("id","1");
-                postObject.put("email", email)
-                postObject.put("password", password)
-                postObject.put("name", name)
-                postObject.put("photo_url", getStringImage(bitmap!!))
-            } catch (e: JSONException) {
-                e.printStackTrace()
+            if(bitmap != null){
+                try {
+                    //historyObject.put("id","1");
+                    postObject.put("email", email)
+                    postObject.put("password", password)
+                    postObject.put("name", name)
+                    postObject.put("photo_url", getStringImage(bitmap!!))
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }else {
+                try {
+                    //historyObject.put("id","1");
+                    postObject.put("email", email)
+                    postObject.put("password", password)
+                    postObject.put("name", name)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
             }
 
             val objRequest = JsonObjectRequest(
@@ -148,13 +159,6 @@ class RegisterActivity : AppCompatActivity() {
                 .setTextColor(resources.getColor(R.color.white))
                 .show()
             //Toast.makeText(applicationContext, "A password tem que ter 6 caractéres", Toast.LENGTH_LONG).show()
-            return false
-        } else if (bitmap == null){
-            Snackbar.make(goBack, "A imagem não foi escolhida", Snackbar.LENGTH_SHORT)
-                .setBackgroundTint(resources.getColor(R.color.themeRegister))
-                .setTextColor(resources.getColor(R.color.white))
-                .show()
-            //Toast.makeText(applicationContext, "A imagem não foi escolhida.", Toast.LENGTH_LONG).show()
             return false
         }
 
